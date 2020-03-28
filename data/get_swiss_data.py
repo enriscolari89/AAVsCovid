@@ -1,10 +1,10 @@
 import pandas as pd
 import os
-
-directory = r'C:\Users\ENRISCOL\AAVsCovid\data\covid19-cases-switzerland'
+from pathlib import Path
 
 swiss_data = pd.DataFrame()
-for filename in os.listdir(directory):
+directory = Path(__file__).parent
+for filename in os.listdir(directory / "covid19-cases-switzerland"):
     if filename.endswith("openzh.csv"):
         df = pd.read_csv(os.path.join(directory, filename)).set_index("Date")
         df.columns = [filename[8:-22] + str(col) for col in df.columns]
@@ -13,4 +13,4 @@ for filename in os.listdir(directory):
     else:
         continue
 
-swiss_data.to_csv("swiss_data.csv")
+swiss_data.to_csv("swiss_data.csv", index=False)
